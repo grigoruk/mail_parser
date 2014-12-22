@@ -9,6 +9,9 @@ public class JavaMailParserTest extends TestCase {
 
     // Test object creation
     public void test_smoke() {
-        JavaMailParser parser = new JavaMailParser();
+        String test = "test@mail.ru";
+        String res ="mail.ru";
+        JavaMailParser parser = new JavaMailParser(test);
+        assertEquals(res, parser.getDomain());
     }
 }
