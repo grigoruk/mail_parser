@@ -44,7 +44,6 @@ public class Mail {
         String asciiMail = IDN.toASCII(this.username) + "@" + IDN.toASCII(this.domain);
         Pattern p = Pattern.compile(".+@xn--.+\\.xn--[a-z0-9]+");
         Matcher m = p.matcher(asciiMail);
-        System.out.println(asciiMail);
         return m.matches();
     }
 }

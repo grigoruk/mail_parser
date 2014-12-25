@@ -1,22 +1,29 @@
 package javamailparsertest;
 
-import junit.framework.*;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+ 
+import org.junit.runner.JUnitCore;
+ 
+import org.junit.runner.Description;
+import org.junit.runner.notification.RunListener;
+import org.junit.runner.notification.Failure;
 
 import javamailparser.*;
 
-public class JavaMailParserTest extends TestCase {
+public class JavaMailParserTest{
 
-//    public void testSmoke() {        
-//        Mail m = new Mail("test@mail.ru");
-//    }
-
-    public void testGetDomain(){
+    @Test
+    public void GetDomain(){
         String test = "test@mail.ru";
         String res = "mail.ru";
         Mail m = new Mail(test);
         assertEquals(res, m.getDomain());
     }
     
+    @Test
     public void testMailValidation(){
         Mail m = new Mail("test@mail.ru");
         assertTrue(m.isValid());
@@ -37,5 +44,30 @@ public class JavaMailParserTest extends TestCase {
         assertTrue(m.isValid());
         
     }
-
+    
+    public static void main(String[] args) {
+        JUnitCore core = new JUnitCore();
+        // Вот подключение нашего собственного слушателя/листенера
+        core.addListener(new MailParserListener());
+        core.run(JavaMailParserTest.class);
+    }
+}
+    
+class MailParserListener extends RunListener {
+ 
+    @Override
+    public void testStarted(Description desc) {
+        System.out.println("Started:" + desc.getDisplayName());
+    }
+ 
+    @Override
+    public void testFinished(Description desc) {
+        System.out.println("Finished:" + desc.getDisplayName());
+    }
+ 
+    @Override
+    public void testFailure(Failure fail) {
+        System.out.println("Failed:" + fail.getDescription().getDisplayName() 
+                + " [" + fail.getMessage() + "]");
+    }
 }
